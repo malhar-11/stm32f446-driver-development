@@ -1,0 +1,23 @@
+# Build output
+Debug/
+Release/
+
+# STM32CubeIDE settings
+.settings/
+
+# Launch configurations
+*.launch
+
+# Object files
+*.o
+*.d
+*.su
+
+# Executables
+*.elf
+*.bin
+*.hex
+*.map
+
+# Logs
+*.log
