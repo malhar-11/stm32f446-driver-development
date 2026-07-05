@@ -47,7 +47,7 @@ This repository contains custom peripheral drivers built from scratch for the ST
 
 Each peripheral driver is implemented as a register-level `.c`/`.h` pair inside `drivers/`, exposing an API for configuration, data transfer, and interrupt handling — without relying on the STM32 HAL or LL libraries. Example/test applications demonstrating each driver live in `Src/`.
 
-> As drivers are added, list them here, e.g.:
+> As drivers are added, they will be listed here, e.g.:
 > - GPIO
 > - SPI
 > - I2C
