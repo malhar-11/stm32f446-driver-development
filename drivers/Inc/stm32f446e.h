@@ -114,6 +114,10 @@
 
 #define SYSCFR						((SYSCFR_Regdef_t*)SYSCFG_BASEADDR)
 
+#define SPI1						((SPI_Regdef_t*)SPI1_BASEADDR)
+#define SPI2						((SPI_Regdef_t*)SPI2_BASEADDR)
+#define SPI3						((SPI_Regdef_t*)SPI3_BASEADDR)
+
 
 /*
  * GPIO peripheral register structure
@@ -207,7 +211,7 @@ typedef struct
 {
 	_vo uint32_t MEMRMP; 		//SYSCFG memory remap register
 	_vo uint32_t PMC; 			//SYSCFG peripheral mode configuration register
-	_vo uint32_t EXTICR[4]; 		//SYSCFG external interrupt configuration registers
+	_vo uint32_t EXTICR[4]; 	//SYSCFG external interrupt configuration registers
 	uint32_t RESERVED1[2];
 	_vo uint32_t CMPCR; 		//Compensation cell control register
 	uint32_t RESERVED2[2];
@@ -215,6 +219,25 @@ typedef struct
 
 
 }SYSCFR_Regdef_t;
+
+
+/*
+ * SPI peripheral register structure
+ */
+typedef struct
+{
+	_vo uint32_t CR1;			//SPI control register 1
+	_vo uint32_t CR2;			//SPI control register 2
+	_vo uint32_t SR;			//SPI status register
+	_vo uint32_t DR;			//SPI data register
+	_vo uint32_t CRCPR;			//SPI CRC polynomial register
+	_vo uint32_t RXCRCR;		//SPI RX CRC register
+	_vo uint32_t TXCRCR;		//SPI TX CRC register
+	_vo uint32_t I2SCFGR;		//SPI_I2S configuration register
+	_vo uint32_t I2SPR;			//SPI_I2S prescaler register
+
+
+}SPI_Regdef_t;
 
 
 //Clock	enable macros of GPIOx peripherals
@@ -249,11 +272,17 @@ typedef struct
 //Clock enable Macros of SYSCFG peripherals
 #define SYSCFG_PCLK_EN()		( RCC -> APB2ENR |= (1<<14))
 
+/**********************************************************/
+
 //Clock disable Macros of GPIOx peripherals
 
 //Clock disable Macros of I2Cx peripherals
 
 //Clock disable Macros of SPIx peripherals
+#define SPI1_PCLK_DI()			( RCC -> APB2ENR &= ~(1<<12))
+#define SPI2_PCLK_DI()			( RCC -> APB1ENR &= ~(1<<14))
+#define SPI3_PCLK_DI()			( RCC -> APB1ENR &= ~(1<<15))
+#define SPI4_PCLK_DI()			( RCC -> APB2ENR &= ~(1<<13))
 
 //Clock disable Macros of USARTx peripherals
 
