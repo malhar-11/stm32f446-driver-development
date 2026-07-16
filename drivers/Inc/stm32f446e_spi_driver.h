@@ -33,6 +33,13 @@ typedef struct
 {
 	SPI_Regdef_t 	pSPIx;			//Base address of SPIx peripherals
 	SPI_Config_t	SPIConfig;		//
+	uint8_t 		*pTxBuffer;		//To store applications Tx Buffer address
+	uint8_t 		*pRxBuffer;		//To store applications Rx Buffer address
+	uint8_t 		TxLen;			//To store Tx data Length
+	uint8_t 		RxLen;			//To store Rx data Length
+	uint8_t 		TxState;		//To store the current Tx state
+	uint8_t 		RxState;		//To store the current Rx state
+
 }SPI_Handle_t;
 
 
@@ -92,6 +99,19 @@ typedef struct
 #define SPI_TXE_FLAG				(1<< SPI_SR_TXE)
 #define SPI_BUSY_FLAG				(1<< SPI_SR_BSY)
 
+//Possible SPI Application states
+#define SPI_READY					0
+#define SPI_BUSY_IN_RX				1
+#define SPI_BUSY_IN_TX				2
+
+//Possible application events
+#define SPI_EVENT_TX_CMPLT			1
+#define SPI_EVENT_RX_CMPLT			2
+#define SPI_EVENT_OVR_ERR			3
+#define SPI_EVENT_CRC_ERR			4
+
+
+
 /*********************************************************************************************
  *
  * 									APIs supported by this driver
@@ -116,6 +136,9 @@ void SPI_DeInit(SPI_Regdef_t *pSPIx);
 void SPI_SendData(SPI_Regdef_t *pSPIx, uint8_t *pTxBuffer, uint32_t Len);
 void SPI_ReceiveData(SPI_Regdef_t *pSPIx, uint8_t *pRxBuffer, uint32_t Len);
 
+uint8_t SPI_SendDataIT(SPI_Handle_t *pSPIHandle, uint8_t *pTxBuffer, uint32_t Len);
+uint8_t SPI_ReceiveDataIT(SPI_Handle_t *pSPIHandle, uint8_t *pRxBuffer, uint32_t Len);
+
 /*
  * IRQ Configuration & ISR Handling
  */
@@ -126,8 +149,14 @@ void SPI_IRQHandle(SPI_Handle_t *pSPIHandle);
 /*
  * other Peripheral Control APIs
  */
-
-
+void SPI_PeripheralCtrl(SPI_Regdef_t *pSPIx, uint8_t ENorDI);
+void SPI_SSIConfig(SPI_Regdef_t *pSPIx, uint8_t ENorDI);
+void SPI_SSOEConfig(SPI_Regdef_t *pSPIx, uint8_t ENorDI);
+uint8_t SPI_GetFlagStatus(SPI_Regdef_t *pSPIx, uint32_t FlagName);
+void SPI_ClearOVRFlag(SPI_Handle_t *pSPIHandle);
+void SPI_CloseTransmission(SPI_Handle_t *pSPIHandle);
+void SPI_CloseReception(SPI_Handle_t *pSPIHandle);
+_weak void SPI_ApplicationEventCallback(SPI_Handle_t *pSPIHandle, uint8_t AppEv);
 
 #endif /* INC_STM32F446E_SPI_DRIVER_H_ */
 
