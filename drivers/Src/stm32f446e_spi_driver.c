@@ -82,7 +82,7 @@ void SPI_PClkControl(SPI_Regdef_t *pSPIx, uint8_t ENorDI)
  *
  * @notes			-
  */
-void SPI_init(SPI_Handle_t *pSPIHandle)
+void SPI_Init(SPI_Handle_t *pSPIHandle)
 {
 	/*
 	 * Configuring CR1 Register
